@@ -1,0 +1,144 @@
+<p align="center">
+  <img src="https://i.imgur.com/IhXEEQM.png" width="680" alt="Pegno logo"/>
+</p>
+
+<p align="center">
+Глобальный менеджер зависимостей для Bun, который Bun забыл сделать
+</p>
+
+<p align="center">
+  <a href="https://bun.sh" target="_blank"><img src="https://img.shields.io/badge/made%20for-bun-000000.svg?logo=bun" /></a>
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" />
+  <a href="https://www.npmjs.com/package/pegno" target="_blank">
+    <img src="https://img.shields.io/npm/v/pegno.svg" />
+  </a>
+  <img src="https://img.shields.io/badge/TypeScript-Ready-3178c6.svg" />
+</p>
+
+> "Умное глобальное рабочее пространство для Bun, созданное тем, кто устал ждать, пока Bun закончит Bun."
+
+---
+
+## 🌍 Idiomas / Languages
+
+🇧🇷 [Português](README.md) | 🇺🇸 [English](README-en.md) | 🇪🇸 [Español](README-es.md) | 🇩🇪 [Deutsch](README-de.md) | 🇫🇷 [Français](README-fr.md) | 🇳🇱 [Nederlands](README-nl.md) | 🇯🇵 [日本語](README-jp.md) | 🇨🇳 [中文](README-ch.md) | 🇮🇳 [हिंदी](README-hi.md) | 🇷🇺 [Русский](README-ru.md) | 🇵🇱 [Polski](README-pl.md) | 🇮🇹 [Italiano](README-it.md) | 🇰🇷 [한국어](README-kr.md) | 🇸🇦 [العربية](README-ar.md) | 🇹🇷 [Türkçe](README-tr.md) | 🇸🇪 [Svenska](README-se.md) | 🇻🇳 [Tiếng Việt](README-vn.md) | 🇹🇭 [ไทย](README-th.md) | 🇮🇱 [עברית](README-he.md) | 🇮🇩 [Bahasa Indonesia](README-id.md)
+
+---
+
+<p align="center">
+  <h1 align="center">Что такое <br /><img src="https://i.imgur.com/P1VL4bC.png" height="80" alt="Pegno logo"/><br />?</h1>
+</p>
+
+**Pegno** — это менеджер зависимостей с **глобальным кэшем**, **авто-линковкой**, **мини-воркспейсами** и **режимом мгновенной синхронизации**, созданный на 100% на **Bun + TypeScript**.
+
+Идея родилась потому, что Bun обещал "скорость и простоту", но на практике все еще не хватает важного слоя:  
+**реального переиспользования зависимостей между проектами**.
+
+Каждый проект переустанавливает те же библиотеки. Каждая сборка скачивает заново. Каждый разработчик теряет время.
+
+**Pegno** решает это, создавая **глобальное рабочее пространство** в вашей системе, где зависимости устанавливаются один раз и переиспользуются через _симлинки_ (или копии, если предпочитаете).
+
+---
+
+## 🚀 Установка
+
+```bash
+bun add -g pegno
+
+npm i -g pegno
+
+# или запуск напрямую
+npx pegno
+```
+
+Проверить:
+
+```bash
+pegno --help
+```
+
+**⚠️ Windows:** Если команда не распознается, добавьте глобальную директорию Bun в PATH:
+
+```powershell
+# Добавить навсегда в PATH (PowerShell как Админ)
+[Environment]::SetEnvironmentVariable("Path", [Environment]::GetEnvironmentVariable("Path", "User") + ";$env:USERPROFILE\.bun\bin", "User")
+```
+
+Ожидаемый вывод:
+
+```
+pegno CLI 1.3.0
+
+Использование:
+  pegno axios@latest   → Устанавливает пакет напрямую
+  pegno use api        → Использует сохраненный мини-воркспейс
+  pegno list           → Список мини-воркспейсов
+  pegno --dev          → Устанавливает как devDependency
+  pegno --copy         → Копирует вместо линковки
+  pegno sync           → Копирует весь глобальный воркспейс
+  pegno --verbose      → Подробные логи
+```
+
+---
+
+## 💡 Пример использования
+
+```bash
+# Устанавливает axios глобально и линкует к текущему проекту
+pegno axios
+
+# Устанавливает несколько пакетов
+pegno fastify zod openai
+
+# Добавляет пакеты разработки
+pegno --dev vitest typescript
+
+# Создает и сохраняет мини-воркспейс
+pegno use api
+```
+
+### 🪟 Пользователи Windows
+
+В Windows рекомендуется использовать режим `--copy` из-за ограничений прав доступа для создания симлинков:
+
+```bash
+# Windows: используйте --copy чтобы избежать ошибок прав доступа
+pegno --copy axios fastify zod
+
+# Режим разработки в Windows
+pegno --dev --copy vitest typescript
+```
+
+**Почему использовать `--copy` в Windows?**  
+Windows требует специальных административных прав для создания симлинков. Режим `--copy` физически копирует пакеты в `node_modules`, обеспечивая полную совместимость без необходимости запуска от имени администратора.
+
+---
+
+## ⚡️ Основные возможности
+
+| Возможность                                 | Описание                                                               |
+| ------------------------------------------- | ---------------------------------------------------------------------- |
+| 💾 **Умный Глобальный Кэш**                 | Каждый пакет устанавливается только один раз в системе.                |
+| 🪄 **Автоматические симлинки**              | Никакого дублирования `node_modules`, все указывает на глобальный кэш. |
+| 📚 **Режим копирования (`--copy`)**         | Если хотите зависимости также в `node_modules`.                        |
+| 📦 **Мини-Воркспейсы**                      | Создавайте именованные наборы зависимостей и применяйте их за секунды. |
+| 🧩 **Совместим с любым проектом Bun**       | Использует только нативные API (`fs`, `os`, `path`, `child_process`).  |
+| 🛠️ **Режим `--dev`**                        | Добавляет пакеты прямо в `devDependencies`.                            |
+| 🔁 **Режим `sync`**                         | Копирует весь глобальный воркспейс в локальный `node_modules`.         |
+| 🎨 **Цветные логи (`kleur`)**               | Уровни, иконки и время установки для быстрой отладки.                  |
+| 🤗 **Никаких внешних runtime зависимостей** | Только `kleur` и Bun.                                                  |
+
+---
+
+## 🧑‍💻 Автор
+
+**SuissAI**  
+Старший разработчик, увлеченный распределенными, устойчивыми архитектурами и ИИ.  
+Создатель экосистемы **Full Agentic Stack**, **Atomic Behavior Types**, а теперь… **Pegno**.
+
+---
+
+## 📄 Лицензия
+
+MIT © Suissa, свободно использовать, ремиксовать и улучшать.  
+Но если сломается, это вина Bun.
