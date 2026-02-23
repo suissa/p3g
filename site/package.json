@@ -40,7 +40,7 @@
     "balanced-match": "^1.0.0",
     "concat-map": "0.0.1",
     "brace-expansion": "^2.0.1",
-    "minimatch": "^9.0.5",
+    "minimatch": "^10.2.2",
     "@eslint/config-array": "^0.21.1",
     "@types/json-schema": "^7.0.15",
     "@eslint/core": "^0.17.0",
